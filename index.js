@@ -54,7 +54,7 @@ const changeSize = async (SERVER_ID, SIZE) => {
       "value": SIZE
     },
     method: "PUT"
-  }).catch(() => console.log(`Error while updating seed and size.`));
+  }).catch(() => console.log(`Error while updating size.`));
 }
 
 const changeSeed = async (SERVER_ID, SEED) => {
@@ -67,10 +67,10 @@ const changeSeed = async (SERVER_ID, SEED) => {
     },
     data: {
       "key": "WORLD_SEED",
-      "value": SIZE
+      "value": SEED
     },
     method: "PUT"
-  }).catch(() => console.log(`Error while updating seed and size.`));
+  }).catch(() => console.log(`Error while updating seed.`));
 }
 
 config.WIPES.forEach(async ({ SERVER_ID, CHANGE_SEED_AND_SIZE, MAP_SIZE, RANDOM_SEED, MAP_SEED, SERVER_NAME, SERVER_IDENTITY, FORCE_WIPE, CRON, TIMEZONE, BLUEPRINT_WIPE, EXTRA_FILES }) => {
@@ -90,7 +90,7 @@ config.WIPES.forEach(async ({ SERVER_ID, CHANGE_SEED_AND_SIZE, MAP_SIZE, RANDOM_
         var size = 0;
 
         if (RANDOM_SEED) {
-          seed = //gen random seed here
+          seed = 1234;
         } else {
           seed = MAP_SEED;
         }
