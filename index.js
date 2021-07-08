@@ -1,7 +1,7 @@
 const CronJob = require('cron').CronJob;
 const config = require('./config.json');
 const axios = require('axios').default;
-const moment = require("moment");
+const moment = require("moment-timezone");
 const nodeactyl = require("nodeactyl");
 
 const pteroAPI = new nodeactyl.NodeactylClient(config.PANEL_URL, config.API_KEY);
