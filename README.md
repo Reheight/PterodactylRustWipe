@@ -20,7 +20,11 @@ In order to get the system running there are a few things you will need to do. I
    ```sh
    git clone https://github.com/Reheight/PterodactylRustWipe.git
    ```
-2. Install NPM packages
+3. CD into the directory
+   ```sh
+   cd PterodactylRustWipe
+   ```
+5. Install NPM packages
    ```sh
    npm install
    ```
