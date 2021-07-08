@@ -22,7 +22,7 @@ In order to get the system running there are a few things you will need to do. I
    ```
 2. Install NPM packages
    ```sh
-   npm install cron axios moment-timezone cron-parser nodeactyl --save
+   npm install
    ```
 3. Edit config.json
 4. Run the node script and check for any errors. Once online it should look like this:
