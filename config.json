@@ -8,6 +8,10 @@
       "BLUEPRINT_WIPE": false,
       "CRON": "0 16 * * WED",
       "SERVER_NAME": "YOUR SERVER NAME",
+      "CHANGE_SEED_AND_SIZE": true,
+      "MAP_SIZE": 3250,
+      "RANDOM_SEED": true,
+      "MAP_SEED": 12345,
       "FORCE_WIPE": false,
       "TIMEZONE": "America/New_York",
       "EXTRA_FILES": [
@@ -23,6 +27,10 @@
       "BLUEPRINT_WIPE": false,
       "CRON": "0 16 * * THU",
       "SERVER_NAME": "YOUR SERVER NAME",
+      "CHANGE_SEED_AND_SIZE": true,
+      "MAP_SIZE": 3250,
+      "RANDOM_SEED": true,
+      "MAP_SEED": 12345,
       "FORCE_WIPE": true,
       "TIMEZONE": "America/New_York",
       "EXTRA_FILES": []

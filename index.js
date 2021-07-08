@@ -41,7 +41,39 @@ const deleteFile = async (SERVER_ID, ROOT, FILENAME) => {
   }).catch(() => console.log(`Error while deleting: ${ROOT}/${FILENAME}`));
 }
 
-config.WIPES.forEach(async ({ SERVER_ID, SERVER_NAME, SERVER_IDENTITY, FORCE_WIPE, CRON, TIMEZONE, BLUEPRINT_WIPE, EXTRA_FILES }) => {
+const changeSize = async (SERVER_ID, SIZE) => {
+  await axios({
+    url: `${config.PANEL_URL}/api/client/servers/${SERVER_ID}/startup/variable`,
+    headers: {
+      "Accept": "application/json",
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${config.API_KEY}`
+    },
+    data: {
+      "key": "WORLD_SIZE",
+      "value": SIZE
+    },
+    method: "PUT"
+  }).catch(() => console.log(`Error while updating seed and size.`));
+}
+
+const changeSeed = async (SERVER_ID, SEED) => {
+  await axios({
+    url: `${config.PANEL_URL}/api/client/servers/${SERVER_ID}/startup/variable`,
+    headers: {
+      "Accept": "application/json",
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${config.API_KEY}`
+    },
+    data: {
+      "key": "WORLD_SEED",
+      "value": SIZE
+    },
+    method: "PUT"
+  }).catch(() => console.log(`Error while updating seed and size.`));
+}
+
+config.WIPES.forEach(async ({ SERVER_ID, CHANGE_SEED_AND_SIZE, MAP_SIZE, RANDOM_SEED, MAP_SEED, SERVER_NAME, SERVER_IDENTITY, FORCE_WIPE, CRON, TIMEZONE, BLUEPRINT_WIPE, EXTRA_FILES }) => {
   const currTime = moment().tz(TIMEZONE);
 
   var nextWipe = parser.parseExpression(CRON);
@@ -52,6 +84,22 @@ config.WIPES.forEach(async ({ SERVER_ID, SERVER_NAME, SERVER_IDENTITY, FORCE_WIP
 
   const job = new CronJob(CRON, async () => {
     pteroAPI.killServer(SERVER_ID);
+
+    if (CHANGE_SEED_AND_SIZE) {
+        var seed = 0;
+        var size = 0;
+
+        if (RANDOM_SEED) {
+          seed = //gen random seed here
+        } else {
+          seed = MAP_SEED;
+        }
+
+        size = MAP_SIZE;
+
+        changeSeed(SERVER_ID, seed);
+        changeSize(SERVER_ID, size);
+    }
 
     if (FORCE_WIPE && currTime.date() > 7)
       return;
