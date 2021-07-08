@@ -12,6 +12,7 @@ In order to get the system running there are a few things you will need to do. I
 
 1. You will need NodeJS, and Node Package Manager (NPM).
 2. You will need to leave the node shell running, or use a service manager such as PM2 or NSSM.
+3. Retrieve API key from your Panel. (https://YourPanel.com/account/api).
 
 ### Installation
 
