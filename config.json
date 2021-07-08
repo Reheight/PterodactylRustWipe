@@ -1,6 +1,6 @@
 {
   "API_KEY": "PTERODACTYL API KEY",
-  "PANEL_URL": "PANEL URL",
+  "PANEL_URL": "PANEL URL (No Trailing Slash)",
   "WIPES": [
     {
       "SERVER_ID": "SERVER ID",
