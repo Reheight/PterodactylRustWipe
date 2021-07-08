@@ -26,35 +26,5 @@ In order to get the system running there are a few things you will need to do. I
    ```
 3. Edit config.json
    ```javascript
-   {
-  "API_KEY": "PTERODACTYL API KEY",
-  "PANEL_URL": "PANEL URL",
-  "WIPES": [
-    {
-      "SERVER_ID": "SERVER ID",
-      "SERVER_IDENTITY": "rust",
-      "BLUEPRINT_WIPE": false,
-      "CRON": "0 16 * * WED",
-      "SERVER_NAME": "YOUR SERVER NAME",
-      "FORCE_WIPE": false,
-      "TIMEZONE": "America/New_York",
-      "EXTRA_FILES": [
-        {
-          "DIRECTORY": "/oxide/data",
-          "FILE": "Statistics.json"
-        }
-      ]
-    },
-    {
-      "SERVER_ID": "SERVER ID",
-      "SERVER_IDENTITY": "rust",
-      "BLUEPRINT_WIPE": false,
-      "CRON": "0 16 * * THU",
-      "SERVER_NAME": "YOUR SERVER NAME",
-      "FORCE_WIPE": true,
-      "TIMEZONE": "America/New_York",
-      "EXTRA_FILES": []
-    }
-  ]
-}
+   {"API_KEY":"PTERODACTYL API KEY","PANEL_URL":"PANEL URL","WIPES":[{"SERVER_ID":"SERVER ID","SERVER_IDENTITY":"rust","BLUEPRINT_WIPE":false,"CRON":"0 16 * * WED","SERVER_NAME":"YOUR SERVER NAME","FORCE_WIPE":false,"TIMEZONE":"America\/New_York","EXTRA_FILES":[{"DIRECTORY":"\/oxide\/data","FILE":"Statistics.json"}]},{"SERVER_ID":"SERVER ID","SERVER_IDENTITY":"rust","BLUEPRINT_WIPE":false,"CRON":"0 16 * * THU","SERVER_NAME":"YOUR SERVER NAME","FORCE_WIPE":true,"TIMEZONE":"America\/New_York","EXTRA_FILES":[]}]}
 ```
