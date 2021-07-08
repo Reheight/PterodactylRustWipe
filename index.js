@@ -73,6 +73,18 @@ const changeSeed = async (SERVER_ID, SEED) => {
   }).catch(() => console.log(`Error while updating seed.`));
 }
 
+const deleteExtraFiles = async (SERVER_ID, files = []) => {
+  return new Promise((resolve, reject) => {
+    if (files.length === 0) resolve();
+    
+    files.forEach(async ({ DIRECTORY, FILE }, index, array) => {
+      await deleteFile(SERVER_ID, DIRECTORY, FILE);
+
+      if (index === array.length - 1) resolve();
+    });
+  });
+}
+
 config.WIPES.forEach(async ({ SERVER_ID, CHANGE_SEED_AND_SIZE, MAP_SIZE, RANDOM_SEED, MAP_SEED, SERVER_NAME, SERVER_IDENTITY, FORCE_WIPE, CRON, TIMEZONE, BLUEPRINT_WIPE, EXTRA_FILES }) => {
   const currTime = moment().tz(TIMEZONE);
 
@@ -119,11 +131,9 @@ config.WIPES.forEach(async ({ SERVER_ID, CHANGE_SEED_AND_SIZE, MAP_SIZE, RANDOM_
       
       await deleteFile(SERVER_ID, `/server/${SERVER_IDENTITY}`, filename);
 
-      EXTRA_FILES.forEach(async ({ DIRECTORY, FILE }) => {
-        await deleteFile(SERVER_ID, DIRECTORY, FILE);
-      });
-      
-      pteroAPI.startServer(SERVER_ID);
+      deleteExtraFiles(SERVER_ID, EXTRA_FILES).then(() => {
+        pteroAPI.startServer(SERVER_ID);
+      })
     });
   }, null, true, TIMEZONE);
   
