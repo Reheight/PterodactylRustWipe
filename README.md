@@ -26,7 +26,7 @@ In order to get the system running there are a few things you will need to do. I
    ```
 5. Install NPM packages
    ```sh
-   npm install
+   npm install --save
    ```
 3. Edit config.json
 4. Run the node script and check for any errors. Once online it should look like this:
