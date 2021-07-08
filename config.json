@@ -7,6 +7,7 @@
       "SERVER_IDENTITY": "rust",
       "BLUEPRINT_WIPE": false,
       "CRON": "0 16 * * WED",
+      "SERVER_NAME": "YOUR SERVER NAME",
       "FORCE_WIPE": false,
       "TIMEZONE": "America/New_York",
       "EXTRA_FILES": [
@@ -21,6 +22,7 @@
       "SERVER_IDENTITY": "rust",
       "BLUEPRINT_WIPE": false,
       "CRON": "0 16 * * THU",
+      "SERVER_NAME": "YOUR SERVER NAME",
       "FORCE_WIPE": true,
       "TIMEZONE": "America/New_York",
       "EXTRA_FILES": []

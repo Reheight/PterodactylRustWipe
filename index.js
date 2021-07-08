@@ -1,8 +1,11 @@
 const CronJob = require('cron').CronJob;
 const config = require('./config.json');
 const axios = require('axios').default;
-const moment = require("moment-timezone");
+const moment = require('moment-timezone');
 const nodeactyl = require("nodeactyl");
+var parser = require('cron-parser');
+
+console.log("The Pterodactyl Rust Wipe Script is now online and waiting.");
 
 const pteroAPI = new nodeactyl.NodeactylClient(config.PANEL_URL, config.API_KEY);
 
@@ -38,8 +41,14 @@ const deleteFile = async (SERVER_ID, ROOT, FILENAME) => {
   }).catch(() => console.log(`Error while deleting: ${ROOT}/${FILENAME}`));
 }
 
-config.WIPES.forEach(async ({ SERVER_ID, SERVER_IDENTITY, FORCE_WIPE, CRON, TIMEZONE, BLUEPRINT_WIPE, EXTRA_FILES }) => {
+config.WIPES.forEach(async ({ SERVER_ID, SERVER_NAME, SERVER_IDENTITY, FORCE_WIPE, CRON, TIMEZONE, BLUEPRINT_WIPE, EXTRA_FILES }) => {
   const currTime = moment().tz(TIMEZONE);
+
+  var nextWipe = parser.parseExpression(CRON);
+  nextWipe = nextWipe.next().toISOString();
+
+  theDate = moment(nextWipe).tz(TIMEZONE).format("MMM Do, YY @ hh:mm a");
+  console.log(`${SERVER_NAME} will wipe ${theDate}.`)
 
   const job = new CronJob(CRON, async () => {
     pteroAPI.killServer(SERVER_ID);
