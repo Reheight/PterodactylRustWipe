@@ -25,7 +25,7 @@ In order to get the system running there are a few things you will need to do. I
    npm install cron axios moment-timezone cron-parser nodeactyl --save
    ```
 3. Edit config.json
-   ```json
+   ```javascript
    {
   "API_KEY": "PTERODACTYL API KEY",
   "PANEL_URL": "PANEL URL",
