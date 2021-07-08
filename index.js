@@ -2,6 +2,9 @@ const CronJob = require('cron').CronJob;
 const config = require('./config.json');
 const axios = require('axios').default;
 const moment = require("moment");
+const nodeactyl = require("nodeactyl");
+
+const pteroAPI = new nodeactyl.NodeactylClient(config.PANEL_URL, config.API_KEY);
 
 const getFiles = async (SERVER_ID, DIRECTORY = "") => {
   const response = await axios({
@@ -39,6 +42,8 @@ config.WIPES.forEach(async ({ SERVER_ID, SERVER_IDENTITY, FORCE_WIPE, CRON, TIME
   const currTime = moment().tz(TIMEZONE);
 
   const job = new CronJob(CRON, async () => {
+    pteroAPI.killServer(SERVER_ID);
+
     if (FORCE_WIPE && currTime.date() > 7)
       return;
 
@@ -50,7 +55,7 @@ config.WIPES.forEach(async ({ SERVER_ID, SERVER_IDENTITY, FORCE_WIPE, CRON, TIME
       const filename = file.attributes.name;
       
       if (filename == "cfg" || filename == "companion.id")
-      return;
+        return;
     
       if (filename.includes("player.blueprints") && !BLUEPRINT_WIPE)
         return;
@@ -59,7 +64,9 @@ config.WIPES.forEach(async ({ SERVER_ID, SERVER_IDENTITY, FORCE_WIPE, CRON, TIME
 
       EXTRA_FILES.forEach(async ({ DIRECTORY, FILE }) => {
         await deleteFile(SERVER_ID, DIRECTORY, FILE);
-      })
+      });
+      
+      pteroAPI.startServer(SERVER_ID);
     });
   }, null, true, TIMEZONE);
   
