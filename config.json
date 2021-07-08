@@ -1,0 +1,29 @@
+{
+  "API_KEY": "PTERODACTYL API KEY",
+  "PANEL_URL": "PANEL URL",
+  "WIPES": [
+    {
+      "SERVER_ID": "SERVER ID",
+      "SERVER_IDENTITY": "rust",
+      "BLUEPRINT_WIPE": false,
+      "CRON": "0 16 * * WED",
+      "FORCE_WIPE": false,
+      "TIMEZONE": "America/New_York",
+      "EXTRA_FILES": [
+        {
+          "DIRECTORY": "/oxide/data",
+          "FILE": "Statistics.json"
+        }
+      ]
+    },
+    {
+      "SERVER_ID": "SERVER ID",
+      "SERVER_IDENTITY": "rust",
+      "BLUEPRINT_WIPE": false,
+      "CRON": "0 16 * * THU",
+      "FORCE_WIPE": true,
+      "TIMEZONE": "America/New_York",
+      "EXTRA_FILES": []
+    }
+  ]
+}
