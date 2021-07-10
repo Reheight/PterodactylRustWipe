@@ -78,6 +78,19 @@ const changeSeed = async (SERVER_ID, SEED) => {
   }).catch((err) => console.log(err));
 };
 
+const deleteMapFiles = async (SERVER_ID, SERVER_IDENTITY, BLUEPRINT_WIPE, files = []) => {
+  return new Promise((resolve, reject) => {
+    files.forEach(async (file, index, array) => {
+      const filename = file.attributes.name;
+      if (filename == "cfg" || filename == "companion.id") return;
+      if (filename.includes("player.blueprints") && !BLUEPRINT_WIPE) return;
+      await deleteFile(SERVER_ID, `/server/${SERVER_IDENTITY}`, filename);
+
+      if (index === array.length - 1) resolve();
+    });
+  });
+};
+
 const deleteExtraFiles = async (SERVER_ID, files = []) => {
   return new Promise((resolve, reject) => {
     if (files.length === 0) resolve();
@@ -138,21 +151,14 @@ config.WIPES.forEach(
         if (FORCE_WIPE && currTime.date() > 7) return;
 
         const files = await getFiles(SERVER_ID, `/server/${SERVER_IDENTITY}`);
-        if (!files || files == null) return;
+        
+        if (files && files != null)
+          await deleteMapFiles(SERVER_ID, SERVER_IDENTITY, BLUEPRINT_WIPE, files);
 
-        files.forEach(async (file) => {
-          const filename = file.attributes.name;
+        if (EXTRA_FILES && EXTRA_FILES != null && EXTRA_FILES.length > 0)
+          await deleteExtraFiles(SERVER_ID, EXTRA_FILES);
 
-          if (filename == "cfg" || filename == "companion.id") return;
-
-          if (filename.includes("player.blueprints") && !BLUEPRINT_WIPE) return;
-
-          await deleteFile(SERVER_ID, `/server/${SERVER_IDENTITY}`, filename);
-
-          deleteExtraFiles(SERVER_ID, EXTRA_FILES).then(() => {
-            pteroAPI.startServer(SERVER_ID);
-          });
-        });
+        pteroAPI.startServer(SERVER_ID);
       },
       null,
       true,
