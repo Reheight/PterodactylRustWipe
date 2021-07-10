@@ -118,7 +118,6 @@ config.WIPES.forEach(
     BLUEPRINT_WIPE,
     EXTRA_FILES,
   }) => {
-    pteroAPI.startServer(SERVER_ID);
     const currTime = moment().tz(TIMEZONE);
 
     let nextWipe = parser.parseExpression(CRON);
