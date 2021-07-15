@@ -129,6 +129,8 @@ config.WIPES.forEach(
     const job = new CronJob(
       CRON,
       async () => {
+        if (FORCE_WIPE && currTime.date() > 7) return;
+        
         pteroAPI.killServer(SERVER_ID);
 
         if (CHANGE_SEED_AND_SIZE) {
@@ -146,8 +148,6 @@ config.WIPES.forEach(
           changeSeed(SERVER_ID, seed);
           changeSize(SERVER_ID, size);
         }
-
-        if (FORCE_WIPE && currTime.date() > 7) return;
 
         const files = await getFiles(SERVER_ID, `/server/${SERVER_IDENTITY}`);
         
