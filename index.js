@@ -117,21 +117,18 @@ config.WIPES.forEach(
     TIMEZONE,
     BLUEPRINT_WIPE,
     EXTRA_FILES,
-  }) => {
+  }, index) => {
     const currTime = moment().tz(TIMEZONE);
 
-    let nextWipe = parser.parseExpression(CRON);
-    nextWipe = nextWipe.next().toISOString();
-
-    theDate = moment(nextWipe).tz(TIMEZONE).format("MMM Do, YY @ hh:mm a");
-    console.log(`${SERVER_NAME} will wipe ${theDate}.`);
+    const nextWipe = parser.parseExpression(CRON).next().toISOString();
+    const formattedDate = moment(nextWipe).tz(TIMEZONE).format("MMM Do, YY @ hh:mm a");
+    console.log(`${index > 0 ? "\n" : ""}${SERVER_NAME} will wipe ${formattedDate}.`);
 
     const job = new CronJob(
       CRON,
       async () => {
         if (FORCE_WIPE && currTime.date() > 7) return;
-        
-        pteroAPI.killServer(SERVER_ID);
+        await pteroAPI.killServer(SERVER_ID);
 
         if (CHANGE_SEED_AND_SIZE) {
           let seed = 0;
@@ -150,14 +147,20 @@ config.WIPES.forEach(
         }
 
         const files = await getFiles(SERVER_ID, `/server/${SERVER_IDENTITY}`);
-        
+
         if (files && files != null)
           await deleteMapFiles(SERVER_ID, SERVER_IDENTITY, BLUEPRINT_WIPE, files);
 
         if (EXTRA_FILES && EXTRA_FILES != null && EXTRA_FILES.length > 0)
           await deleteExtraFiles(SERVER_ID, EXTRA_FILES);
 
-        pteroAPI.startServer(SERVER_ID);
+        setTimeout(async () => {
+            await pteroAPI.startServer(SERVER_ID);
+        }, 5000);
+
+        const upcomingWipe = parser.parseExpression(CRON).next().toISOString();
+        const upcomingFormattedDate = moment(upcomingWipe).tz(TIMEZONE).format("MMM Do, YY @ hh:mm a");
+        console.log(`\n${SERVER_NAME} will wipe ${upcomingFormattedDate}.`);
       },
       null,
       true,
